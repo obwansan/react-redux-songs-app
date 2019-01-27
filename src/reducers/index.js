@@ -17,7 +17,7 @@ const selectedSongReducer = (selectedSong=null, action) => {
 }
 
 // Exporting like this means any other file in the project has access
-// to our combined set of reducers.
+// to our combined set of reducers (and the state they return).
 export default combineReducers({
   songs: songsReducer,
   selectedSong: selectedSongReducer

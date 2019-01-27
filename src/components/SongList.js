@@ -1,24 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { selectSong } from '../actions';
 
 class SongList extends Component {
+  
+  renderList() {
+    // map() returns a (new) array of JSX blobs (song title and select button)
+    return this.props.songs.map((song) => {
+      // returns each JSX blob to the new array with the interpolated song data.
+      return (
+        <div className="item" key={song.title}>
+          <div className="right floated content">
+            <button 
+              className="ui button primary" 
+              onClick={() => this.props.selectSong(song)}
+            >
+              Select
+            </button>
+          </div>
+          <div className="content">{song.title}</div>
+        </div>
+      );
+    });
+  }
+  
   render() {
-    console.log(this.props);
-    return <div>SongList</div>
+    return <div className="ui divided list">{this.renderList()}</div>
   }
 }
 
-// Doesn't have to be called mapStateToProps, just convention.
-const mapStateToProps = (state) => {
-  return { songs: state.songs };
+const mapStateToProps = state => {
+  return { songs: state.songs }
 }
 
-// connect is a React component.
-// connect() returns a function. The second pair of parentheses invokes 
-// the function it returns (passing it class SongList, which renders the div).
-export default connect(mapStateToProps)(SongList);
+const mapDispatchToProps = dispatch => {
+  return { selectSong: selectSong }
+}
 
-// The object returned from mapStateToProps will show up as props (the 
-// props object) in the SongList component, i.e.
-// this.props === { songs: state.songs }
+export default connect(mapStateToProps, mapDispatchToProps)(SongList);
+
 
